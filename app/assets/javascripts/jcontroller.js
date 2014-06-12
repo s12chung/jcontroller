@@ -17,16 +17,16 @@ var Jcontroller = {
         );
     },
     execute_action: function(controller_path, action_name, params) {
-        var controller = Jcontroller.find(controller_path);
-        if (Jcontroller.present(controller)) {
+        var controller = this.find(controller_path);
+        if (this.present(controller)) {
             controller.execute_action(action_name, params);
         }
     },
 
     blank: function(o) { return typeof o === "undefined" || o === null; },
-    present: function(o) { return !Jcontroller.blank(o); },
+    present: function(o) { return !this.blank(o); },
     define_namespace: function(namespace_string, definition) {
-        return $.extend(Jcontroller.get_or_create(namespace_string), definition);
+        return $.extend(this.get_or_create(namespace_string), definition);
     },
     get_or_create: function(namespace_string) {
         var current_namepace = window;
@@ -38,7 +38,7 @@ var Jcontroller = {
         return current_namepace;
     },
     find: function(controller_path) {
-        var namespace_string = Jcontroller.controllers_path + controller_path;
+        var namespace_string = this.controllers_path + controller_path;
 
         var current_namepace = window;
         $.each(namespace_string.split('/'), function(index, level) {
