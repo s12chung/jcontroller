@@ -2,10 +2,12 @@ require 'spec_helper'
 
 feature 'invoke correct dom route', :js => true do
   context 'without parameters' do
-    def filters(controller_namespace, action)
-      %W[before #{action} after].map do |filter|
-        "#{controller_namespace}/html/#{filter}"
-      end
+    def filters(controller_namespace, action, js=false)
+      format_filters = %W[before #{action} after].map do |filter|
+        ["application/html/#{filter}", "#{controller_namespace}/html/#{filter}"]
+      end.flatten
+      format_filters[-1], format_filters[-2] = format_filters[-2], format_filters[-1]
+      format_filters
     end
 
     def test_elements(filters)
@@ -19,7 +21,6 @@ feature 'invoke correct dom route', :js => true do
 
     scenario 'with basic controller' do
       visit '/users'
-      puts page.html
       test_elements filters('users', "index")
     end
   end
