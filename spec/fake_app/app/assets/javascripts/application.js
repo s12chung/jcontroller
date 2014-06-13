@@ -15,15 +15,11 @@ create_routes = function(controller_path) {
         test_append(controller_path, filter, params);
     };
 
-    Jcontroller.create(controller_path, {
-        before: function (params) {
-            test("before", params);
-        },
-        index: function (params) {
-            test("index", params);
-        },
-        after: function (params) {
-            test("after", params);
+    var hash = {};
+    $.each(["before", "after", "index", "parameters_template"], function(index, filter) {
+        hash[filter] = function() {
+            test(filter, this.params);
         }
     });
+    Jcontroller.create(controller_path, hash);
 };

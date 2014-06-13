@@ -13,10 +13,11 @@ feature 'invoke correct dom route', :js => true do
     filters + controller_namespaces.map {|controller_namespace| filter_namespace(controller_namespace, "after") }.reverse
   end
 
-  def test_elements(filters)
+  def test_elements(filters, parameter=false)
     within '#test_append' do
       filters.zip(all('div')).each do |filter, div|
         div[:filter].should == filter
+        div.text.should == (parameter ? "passed parameter" : "")
       end
     end
   end
@@ -32,5 +33,10 @@ feature 'invoke correct dom route', :js => true do
     within '#test_append' do
       all('div').size.should == 0
     end
+  end
+
+  scenario 'with parameters template' do
+    visit parameters_template_users_path
+    test_elements filters('users', "parameters_template"), true
   end
 end

@@ -11,23 +11,31 @@ var Jcontroller = {
                         }
                         return this.parent_cache;
                     },
-                    execute_filter: function(filter, params) {
-                        if ($.isFunction(filter)) filter(params);
+
+                    dup: function(params) {
+                        var dup = $.extend({}, this);
+                        dup.params = params;
+                        if (Jcontroller.present(dup.parent())) dup.parent_cache = dup.parent().dup(params);
+                        return dup;
                     },
-                    execute_action: function(action_name, params) {
+
+                    execute_action: function(action_name) {
                         if ($.isFunction(this[action_name])) {
-                            this.execute_post_order_filter('before', params);
-                            this.execute_post_order_filter(action_name, params);
-                            this.execute_pre_order_filter('after', params);
+                            this.execute_post_order_filter('before');
+                            this.execute_post_order_filter(action_name);
+                            this.execute_pre_order_filter('after');
                         }
                     },
-                    execute_post_order_filter: function(filter, params) {
-                        if (Jcontroller.present(this.parent())) this.parent().execute_post_order_filter(filter, params);
-                        this.execute_filter(this[filter], params);
+                    execute_post_order_filter: function(filter) {
+                        if (Jcontroller.present(this.parent())) this.parent().execute_post_order_filter(filter);
+                        this.execute_filter(this[filter]);
                     },
-                    execute_pre_order_filter: function(filter, params) {
-                        this.execute_filter(this[filter], params);
-                        if (Jcontroller.present(this.parent())) this.parent().execute_pre_order_filter(filter, params);
+                    execute_pre_order_filter: function(filter) {
+                        this.execute_filter(this[filter]);
+                        if (Jcontroller.present(this.parent())) this.parent().execute_pre_order_filter(filter);
+                    },
+                    execute_filter: function(filter) {
+                        if ($.isFunction(filter)) $.proxy(filter, this)();
                     }
                 },
                 definition
@@ -37,12 +45,13 @@ var Jcontroller = {
     execute_action: function(controller_path, action_name, params) {
         var controller = this.find(controller_path);
         if (this.present(controller)) {
-            controller.execute_action(action_name, params);
+            controller.dup(params).execute_action(action_name);
         }
     },
 
     blank: function(o) { return typeof o === "undefined" || o === null; },
     present: function(o) { return !this.blank(o); },
+
     define_namespace: function(namespace_string, definition) {
         return $.extend(this.get_or_create(namespace_string), definition);
     },

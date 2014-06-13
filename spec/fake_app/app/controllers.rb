@@ -7,4 +7,6 @@ class UsersController < ApplicationController
   end
   def no_action
   end
+  def parameters_template
+  end
 end
