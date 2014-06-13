@@ -3,11 +3,12 @@
 //= require_self
 //= require_tree .
 
+test_append_selector = '#test_append';
 test_append = function(controller_namespace, filter, params) {
     var $div = $(document.createElement('div'));
     $div.attr("filter", controller_namespace + "/" + 'html' + "/" + filter);
     $div.append(params.s);
-    $('#test_append').append($div);
+    $(test_append_selector).append($div);
 };
 
 create_routes = function(controller_path) {
@@ -15,9 +16,12 @@ create_routes = function(controller_path) {
         test_append(controller_path, filter, params);
     };
 
-    var hash = {};
+    var hash = { html: {} };
+    hash.html.state = function() {
+        $(test_append_selector).html(JSON.stringify(this.state));
+    };
     $.each(["before", "after", "index", "parameters_template"], function(index, filter) {
-        hash[filter] = function() {
+        hash.html[filter] = function() {
             test(filter, this.params);
         }
     });

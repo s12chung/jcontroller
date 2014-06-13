@@ -1,8 +1,9 @@
 FakeApp::Application.routes.draw do
   resources :users, :only => %w[index] do
     collection do
-      get :no_action
-      get :parameters_template
+      %w[state no_action parameters_template].each do |action|
+        get action
+      end
     end
   end
 end

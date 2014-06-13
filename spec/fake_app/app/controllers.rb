@@ -3,10 +3,10 @@ class ApplicationController < ActionController::Base
 end
 
 class UsersController < ApplicationController
-  def index
-  end
-  def no_action
-  end
-  def parameters_template
+  %w[state index no_action parameters_template].each do |action|
+    class_eval <<-END
+      def #{action}
+      end
+    END
   end
 end

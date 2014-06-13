@@ -22,6 +22,20 @@ feature 'invoke correct dom route', :js => true do
     end
   end
 
+  it "should pass the state of the request" do
+    visit state_users_path
+    find('#test_append').text.should == {
+        controller_path: "users",
+        action_name: "state",
+        method: "GET",
+        path: "/users/state",
+        format: "html",
+        jcontroller: {
+            controller_path: "users",
+            action_name: "state"
+        }
+    }.to_json
+  end
 
   scenario 'with basic controller' do
     visit users_path

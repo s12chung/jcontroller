@@ -25,6 +25,16 @@ module Jcontroller
       result
     end
 
+    def jcontroller_state
+      {
+          controller_path: controller_path,
+          action_name: action_name,
+          method: request.method,
+          path: request.env['PATH_INFO'],
+          format: formats.first
+      }
+    end
+
     def jcontroller_params(action)
       with_format :js do
         if lookup_context.template_exists? action.params_template_path

@@ -12,15 +12,16 @@ var Jcontroller = {
                         return this.parent_cache;
                     },
 
-                    dup: function(params) {
+                    dup: function(state, params) {
                         var dup = $.extend({}, this);
+                        dup.state = state;
                         dup.params = params;
-                        if (Jcontroller.present(dup.parent())) dup.parent_cache = dup.parent().dup(params);
+                        if (Jcontroller.present(dup.parent())) dup.parent_cache = dup.parent().dup(state, params);
                         return dup;
                     },
 
                     execute_action: function(action_name) {
-                        if ($.isFunction(this[action_name])) {
+                        if ($.isPlainObject(this.html) && $.isFunction(this.html[action_name])) {
                             this.execute_post_order_filter('before');
                             this.execute_post_order_filter(action_name);
                             this.execute_pre_order_filter('after');
@@ -28,10 +29,10 @@ var Jcontroller = {
                     },
                     execute_post_order_filter: function(filter) {
                         if (Jcontroller.present(this.parent())) this.parent().execute_post_order_filter(filter);
-                        this.execute_filter(this[filter]);
+                        this.execute_filter(this.html[filter]);
                     },
                     execute_pre_order_filter: function(filter) {
-                        this.execute_filter(this[filter]);
+                        this.execute_filter(this.html[filter]);
                         if (Jcontroller.present(this.parent())) this.parent().execute_pre_order_filter(filter);
                     },
                     execute_filter: function(filter) {
@@ -42,10 +43,10 @@ var Jcontroller = {
             )
         );
     },
-    execute_action: function(controller_path, action_name, params) {
+    execute_action: function(controller_path, action_name, state, params) {
         var controller = this.find(controller_path);
         if (this.present(controller)) {
-            controller.dup(params).execute_action(action_name);
+            controller.dup(state, params).execute_action(action_name);
         }
     },
 
