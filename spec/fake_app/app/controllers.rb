@@ -5,4 +5,6 @@ end
 class UsersController < ApplicationController
   def index
   end
+  def no_action
+  end
 end

@@ -15,9 +15,11 @@ var Jcontroller = {
                         if ($.isFunction(filter)) filter(params);
                     },
                     execute_action: function(action_name, params) {
-                        this.execute_post_order_filter('before', params);
-                        this.execute_post_order_filter(action_name, params);
-                        this.execute_pre_order_filter('after', params)
+                        if ($.isFunction(this[action_name])) {
+                            this.execute_post_order_filter('before', params);
+                            this.execute_post_order_filter(action_name, params);
+                            this.execute_pre_order_filter('after', params);
+                        }
                     },
                     execute_post_order_filter: function(filter, params) {
                         if (Jcontroller.present(this.parent())) this.parent().execute_post_order_filter(filter, params);
