@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 feature 'invoke correct dom route', :js => true do
+  before :all do
+    @test_append_selector = '#test_append'
+  end
+
   def filter_namespace(controller_namespace, filter, format="html")
     "#{controller_namespace}/#{format}/#{filter}"
   end
@@ -14,7 +18,7 @@ feature 'invoke correct dom route', :js => true do
   end
 
   def test_elements(filters, parameter=false)
-    within '#test_append' do
+    within @test_append_selector do
       filters.zip(all('div')).each do |filter, div|
         div[:filter].should == filter
         div.text.should == (parameter ? "passed parameter" : "")
@@ -24,7 +28,7 @@ feature 'invoke correct dom route', :js => true do
 
   it "should pass the state of the request" do
     visit state_users_path
-    find('#test_append').text.should == {
+    find(@test_append_selector).text.should == {
         controller_path: "users",
         action_name: "state",
         method: "GET",
@@ -44,7 +48,7 @@ feature 'invoke correct dom route', :js => true do
 
   scenario 'with no action defined' do
     visit no_action_users_path
-    within '#test_append' do
+    within @test_append_selector do
       all('div').size.should == 0
     end
   end
