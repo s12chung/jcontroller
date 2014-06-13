@@ -6,4 +6,8 @@ FakeApp::Application.routes.draw do
       end
     end
   end
+
+  namespace :admin do
+    resources :users, :only => %w[index]
+  end
 end

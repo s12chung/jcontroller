@@ -1,0 +1,1 @@
+create_routes('admin/users');

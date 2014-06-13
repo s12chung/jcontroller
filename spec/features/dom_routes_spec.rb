@@ -46,6 +46,11 @@ feature 'invoke correct dom route', :js => true do
     test_elements filters('users', "index")
   end
 
+  scenario 'with namespaced controller' do
+    visit admin_users_path
+    test_elements filters('admin/users', "index")
+  end
+
   scenario 'with no action defined' do
     visit no_action_users_path
     within @test_append_selector do

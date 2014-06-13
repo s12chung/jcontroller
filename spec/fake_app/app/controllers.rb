@@ -10,3 +10,10 @@ class UsersController < ApplicationController
     END
   end
 end
+
+module Admin
+  class UsersController < ApplicationController
+    def index
+    end
+  end
+end
