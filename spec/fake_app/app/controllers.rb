@@ -3,7 +3,8 @@ class ApplicationController < ActionController::Base
 end
 
 class UsersController < ApplicationController
-  %w[state index no_action parameters_template].each do |action|
+  CUSTOM_ACTIONS = %w[state no_action manually_execute parameters_template]
+  (%w[index] + CUSTOM_ACTIONS).each do |action|
     class_eval <<-END
       def #{action}
       end

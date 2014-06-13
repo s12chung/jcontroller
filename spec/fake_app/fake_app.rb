@@ -19,11 +19,11 @@ module FakeApp
 end
 FakeApp::Application.initialize!
 
-%w[routes].each do |file|
-  require "fake_app/#{file}"
-end
-
 %w[controllers helpers].each do |file|
   require "fake_app/app/#{file}"
+end
+
+%w[routes].each do |file|
+  require "fake_app/#{file}"
 end
 ActionView::Base.send :include, ApplicationHelper

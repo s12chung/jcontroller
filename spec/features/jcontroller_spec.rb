@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'invoke correct dom route', :js => true do
+feature 'invoke correct filter', :js => true do
   before :all do
     @test_append_selector = '#test_append'
   end
@@ -56,6 +56,11 @@ feature 'invoke correct dom route', :js => true do
     within @test_append_selector do
       all('div').size.should == 0
     end
+  end
+
+  scenario "with manual execution" do
+    visit '/users/manually_execute'
+    test_elements (filters('users', "index") + filters('users', 'manually_execute'))
   end
 
   scenario 'with parameters template' do

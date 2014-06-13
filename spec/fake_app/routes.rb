@@ -1,7 +1,7 @@
 FakeApp::Application.routes.draw do
   resources :users, :only => %w[index] do
     collection do
-      %w[state no_action parameters_template].each do |action|
+      UsersController::CUSTOM_ACTIONS.each do |action|
         get action
       end
     end
