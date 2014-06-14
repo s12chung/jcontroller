@@ -20,7 +20,7 @@ create_routes = function(controller_path) {
     hash.html.state = function() {
         $(test_append_selector).html(JSON.stringify(this.state));
     };
-    $.each(["before", "after", "index", "manually_execute", "parameters_template"], function(index, filter) {
+    $.each(["before", "after", "index", "manually_execute", "manual_parameters", "parameters_template"], function(index, filter) {
         hash.html[filter] = function() {
             test(filter, this.params);
         }

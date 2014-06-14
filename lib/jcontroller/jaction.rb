@@ -1,17 +1,18 @@
 module Jcontroller
   class Jaction
-    ATTRIBUTES = %w[controller_path action_name format]
+    ATTRIBUTES = %w[controller_path action_name format params]
     attr_accessor *ATTRIBUTES
 
     def initialize(jaction=nil)
+      if self.class.controller
+        self.controller_path  = self.class.controller.controller_path
+        self.action_name = self.class.controller.action_name
+        self.format = self.class.controller.formats.first
+      end
+      self.params = {}
+
       if jaction
         parse(jaction)
-      else
-        if self.class.controller
-          self.controller_path  = self.class.controller.controller_path
-          self.action_name = self.class.controller.action_name
-          self.format = self.class.controller.formats.first
-        end
       end
     end
 
@@ -60,7 +61,7 @@ module Jcontroller
 
     protected
     def string_params
-      self.class.controller.send(:jcontroller_params, self) || {}.to_json
+      self.class.controller.send(:jcontroller_params, self) || params.to_json
     end
 
     class << self

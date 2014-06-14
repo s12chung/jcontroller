@@ -6,6 +6,7 @@ FakeApp::Application.routes.draw do
       end
       get :stopped
       get :different_action
+      get :manual_parameters
     end
   end
 

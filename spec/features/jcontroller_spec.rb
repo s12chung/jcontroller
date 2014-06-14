@@ -17,11 +17,11 @@ feature 'invoke correct filter', :js => true do
     filters + controller_namespaces.map {|controller_namespace| filter_namespace(controller_namespace, "after") }.reverse
   end
 
-  def test_elements(filters, parameter=false)
+  def test_elements(filters, parameter=nil)
     within @test_append_selector do
       filters.zip(all('div')).each do |filter, div|
         div[:filter].should == filter
-        div.text.should == (parameter ? "passed parameter" : "")
+        div.text.should == (parameter ? parameter : "")
       end
     end
   end
@@ -60,19 +60,23 @@ feature 'invoke correct filter', :js => true do
     test_elements (filters('users', "index") + filters('users', 'manually_execute'))
   end
 
-  scenario "with different action" do
-    visit different_action_users_path
-    test_elements filters('users', "index")
-  end
   scenario "when stopped" do
     visit stopped_users_path
     within @test_append_selector do
       all('div').size.should == 0
     end
   end
+  scenario "with different action" do
+    visit different_action_users_path
+    test_elements filters('users', "index")
+  end
 
+  scenario 'with parameters' do
+    visit manual_parameters_users_path
+    test_elements filters('users', "manual_parameters"), "manual parameters"
+  end
   scenario 'with parameters template' do
     visit parameters_template_users_path
-    test_elements filters('users', "parameters_template"), true
+    test_elements filters('users', "parameters_template"), "parameter template"
   end
 end

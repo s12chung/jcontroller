@@ -7,9 +7,9 @@ describe Jcontroller::Jaction do
       @jaction = Jcontroller::Jaction.new
     end
 
-    it "should start with nil attributes if there is no controller" do
+    it "should start with empty attributes if there is no controller" do
       Jcontroller::Jaction::ATTRIBUTES.each do |attribute|
-        @target_jaction.send(attribute).should == nil
+        @target_jaction.send(attribute).should == (attribute == "params" ? {} : nil)
       end
     end
 
@@ -33,7 +33,7 @@ describe Jcontroller::Jaction do
     end
 
     it "should take a hash" do
-      @target_jaction.parse(controller_path: 0, action_name: 1, format: 2)
+      @target_jaction.parse(:controller_path => 0, :action_name => 1, :format => 2, :params => 3)
       test_values
     end
 

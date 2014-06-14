@@ -1,1 +1,1 @@
-json.s "passed parameter"
+json.s "parameter template"

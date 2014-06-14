@@ -12,6 +12,7 @@ module Jcontroller
         @stop_jaction = true
       else
         self.jaction.parse(jaction)
+        # if options.has_key? :params; self.jaction.parse options end
       end
     end
 
