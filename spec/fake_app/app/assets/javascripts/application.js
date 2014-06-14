@@ -12,19 +12,20 @@ test_append = function(controller_namespace, filter, params) {
 };
 
 create_routes = function(controller_path, extend) {
-    var test = function (filter, params) {
-        test_append(controller_path, filter, params);
+    var set_basic_filters = function(format, filters) {
+        $.each(filters, function(index, filter) {
+            hash.html[filter] = function() {
+                test_append(controller_path, filter, this.params);
+            }
+        });
     };
 
-    var hash = { html: {} };
+    var hash = { html: {}, js: {} };
     hash.html.state = function() {
         $(test_append_selector).html(JSON.stringify(this.state));
     };
-    $.each(["before", "after", "index", "manually_execute", "manual_parameters", "parameters_template"], function(index, filter) {
-        hash.html[filter] = function() {
-            test(filter, this.params);
-        }
-    });
+    set_basic_filters('html', ["before", "after", "index", "manually_execute", "manual_parameters", "parameters_template"]);
+    set_basic_filters('js', ["before", "after", "index"]);
     if (Jcontroller.present(extend)) $.extend(hash, extend);
     Jcontroller.create(controller_path, hash);
 };

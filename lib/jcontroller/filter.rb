@@ -18,7 +18,7 @@ module Jcontroller
 
     def redirect?; self.status == 302 end
     def append_execute_jaction
-      unless @stop_jaction
+      if !@stop_jaction && formats.first == :html
         partition_index = response_body[0].rindex('</body>')
 
         if partition_index

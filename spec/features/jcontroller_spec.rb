@@ -34,9 +34,10 @@ feature 'invoke correct filter', :js => true do
         method: "GET",
         path: "/users/state",
         format: "html",
-        jcontroller: {
+        jaction: {
             controller_path: "users",
-            action_name: "state"
+            action_name: "state",
+            format: "html"
         }
     }.to_json
   end
@@ -85,5 +86,13 @@ feature 'invoke correct filter', :js => true do
   scenario 'with parameters template' do
     visit parameters_template_users_path
     test_elements filters('users', "parameters_template"), "parameter template"
+  end
+
+  context "with ajax" do
+    scenario "basic controller" do
+      visit stopped_users_path
+      click_link "ajax link"
+      test_elements filters('users', "index"), "ajax parameter"
+    end
   end
 end

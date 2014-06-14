@@ -6,8 +6,7 @@ class UsersController < ApplicationController
   DEFAULT_ACTIONS = %w[state no_action manually_execute parameters_template]
   (%w[index] + DEFAULT_ACTIONS).each do |action|
     class_eval <<-END
-      def #{action}
-      end
+      def #{action};end
     END
   end
 

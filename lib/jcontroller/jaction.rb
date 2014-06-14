@@ -42,15 +42,16 @@ module Jcontroller
       end
     end
 
-    def to_params
-      ([controller_path, action_name, state].map { |param| param.to_json } + [string_params]).join(",")
+    def to_params(string_params=nil)
+      [state.to_json, string_params ? string_params : self.string_params].join(",")
     end
 
     def state
       self.class.controller.send(:jcontroller_state).merge({
-                                                               jcontroller: {
+                                                               jaction: {
                                                                    controller_path: controller_path,
-                                                                   action_name: action_name
+                                                                   action_name: action_name,
+                                                                   format: format
                                                                }
                                                            })
     end

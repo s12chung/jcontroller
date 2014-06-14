@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Jcontroller::VERSION
   spec.authors       = ["Steve Chung"]
   spec.email         = ["steve.chung7@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{ Controller based javascript outside of your view files. }
+  spec.description   = %q{ Controller based javascript outside of your view files. }
+  spec.homepage      = "https://github.com/s12chung/jcontroller"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -26,8 +26,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "capybara-webkit"
   spec.add_development_dependency "launchy"
-  spec.add_development_dependency "rspec-rails", "~> 2.14.0"
+  spec.add_development_dependency "rspec-rails", "~> 2.14"
   spec.add_development_dependency "jbuilder"
   spec.add_development_dependency "jquery-rails"
-  spec.add_development_dependency "rake"
 end

@@ -13,26 +13,26 @@ var Jcontroller = {
                     },
 
                     dup: function(state, params) {
-                        var dup = $.extend({}, this);
+                        var dup = $.extend({}, this, state.jaction);
                         dup.state = state;
                         dup.params = params;
                         if (Jcontroller.present(dup.parent())) dup.parent_cache = dup.parent().dup(state, params);
                         return dup;
                     },
 
-                    execute_action: function(action_name) {
+                    execute_action: function() {
                         if ($.isPlainObject(this.html)) {
                             this.execute_post_order_filter('before');
-                            this.execute_post_order_filter(action_name);
+                            this.execute_post_order_filter(this.action_name);
                             this.execute_pre_order_filter('after');
                         }
                     },
                     execute_post_order_filter: function(filter) {
                         if (Jcontroller.present(this.parent())) this.parent().execute_post_order_filter(filter);
-                        this.execute_filter(this.html[filter]);
+                        this.execute_filter(this[this.format][filter]);
                     },
                     execute_pre_order_filter: function(filter) {
-                        this.execute_filter(this.html[filter]);
+                        this.execute_filter(this[this.format][filter]);
                         if (Jcontroller.present(this.parent())) this.parent().execute_pre_order_filter(filter);
                     },
                     execute_filter: function(filter) {
@@ -43,10 +43,10 @@ var Jcontroller = {
             )
         );
     },
-    execute_jaction: function(controller_path, action_name, state, params) {
-        var controller = this.find(controller_path);
+    execute_jaction: function(state, params) {
+        var controller = this.find(state.jaction.controller_path);
         if (this.present(controller)) {
-            controller.dup(state, params).execute_action(action_name);
+            controller.dup(state, params).execute_action();
         }
     },
 
@@ -71,7 +71,10 @@ var Jcontroller = {
 
         var current_namepace = window;
         $.each(namespace_string.split('/'), function(index, level) {
-            if (Jcontroller.blank(current_namepace[level])) return undefined;
+            if (Jcontroller.blank(current_namepace[level])) {
+                current_namepace = undefined;
+                return false;
+            }
             current_namepace = current_namepace[level];
         });
         return current_namepace;
