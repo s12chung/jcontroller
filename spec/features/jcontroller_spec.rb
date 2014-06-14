@@ -49,6 +49,10 @@ feature 'invoke correct filter', :js => true do
     visit admin_users_path
     test_elements filters('admin/users', "index")
   end
+  scenario 'with superclassed controller' do
+    visit superusers_path
+    test_elements filters('superusers', "index", %w[application users])
+  end
 
   scenario 'with no action defined' do
     visit no_action_users_path

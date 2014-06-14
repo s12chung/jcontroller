@@ -26,6 +26,11 @@ class UsersController < ApplicationController
   end
 end
 
+class SuperusersController < UsersController
+  def index
+  end
+end
+
 module Admin
   class UsersController < ApplicationController
     def index

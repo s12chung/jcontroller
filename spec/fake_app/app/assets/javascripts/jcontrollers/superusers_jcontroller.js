@@ -1,0 +1,1 @@
+create_routes('superusers', { parent_path: "users" });

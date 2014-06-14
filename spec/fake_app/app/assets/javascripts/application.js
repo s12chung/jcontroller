@@ -11,7 +11,7 @@ test_append = function(controller_namespace, filter, params) {
     $(test_append_selector).append($div);
 };
 
-create_routes = function(controller_path) {
+create_routes = function(controller_path, extend) {
     var test = function (filter, params) {
         test_append(controller_path, filter, params);
     };
@@ -25,5 +25,6 @@ create_routes = function(controller_path) {
             test(filter, this.params);
         }
     });
+    if (Jcontroller.present(extend)) $.extend(hash, extend);
     Jcontroller.create(controller_path, hash);
 };

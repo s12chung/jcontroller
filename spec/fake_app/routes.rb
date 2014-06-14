@@ -10,6 +10,7 @@ FakeApp::Application.routes.draw do
       get :action_and_parameters
     end
   end
+  resources :superusers, :only => %w[index]
 
   namespace :admin do
     resources :users, :only => %w[index]
