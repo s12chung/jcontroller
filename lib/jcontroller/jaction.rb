@@ -1,11 +1,11 @@
 module Jcontroller
-  class Action
+  class Jaction
     ATTRIBUTES = %w[controller_path action_name format]
     attr_accessor *ATTRIBUTES
 
-    def initialize(action=nil)
-      if action
-        parse(action)
+    def initialize(jaction=nil)
+      if jaction
+        parse(jaction)
       else
         if self.class.controller
           self.controller_path  = self.class.controller.controller_path
@@ -15,22 +15,22 @@ module Jcontroller
       end
     end
 
-    def parse(action)
-      if action.class == Action
+    def parse(jaction)
+      if jaction.class == Jaction
         ATTRIBUTES.each do |attribute|
-          self.send(attribute + "=", action.send(attribute))
+          self.send(attribute + "=", jaction.send(attribute))
         end
-      elsif action.class.ancestors.include? Hash
-        hash = HashWithIndifferentAccess.new(action)
+      elsif jaction.class.ancestors.include? Hash
+        hash = HashWithIndifferentAccess.new(jaction)
         ATTRIBUTES.each do |attribute|
           if hash[attribute]; self.send(attribute + "=", hash[attribute]) end
         end
       else
-        self.controller_path = if action.index("#")
-                                 split = action.split('#')
+        self.controller_path = if jaction.index("#")
+                                 split = jaction.split('#')
                                  [split.first]
                                else
-                                 split = action.split('/')
+                                 split = jaction.split('/')
                                  split[0..-2]
                                end
 
@@ -65,11 +65,11 @@ module Jcontroller
 
     class << self
       def controller
-        RequestStore.store[:jcontroller_action_controller]
+        RequestStore.store[:jaction_controller]
       end
 
       def controller=(controller)
-        RequestStore.store[:jcontroller_action_controller] = controller
+        RequestStore.store[:jaction_controller] = controller
       end
     end
   end

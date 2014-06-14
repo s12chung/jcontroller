@@ -3,13 +3,19 @@ module Jcontroller
     extend ActiveSupport::Concern
 
     included do
-      append_before_filter :set_jcontroller_action_controller
+      append_before_filter :set_jaction_controller
+      append_before_filter :set_jaction
       append_after_filter :append_execute_jaction, unless: :redirect?
+
+      helper_method :jaction
     end
 
     protected
-    def set_jcontroller_action_controller
-      Jcontroller::Action.controller = self
+    def jaction; @jaction end
+    def set_jaction; @jaction = Jcontroller::Jaction.new end
+
+    def set_jaction_controller
+      Jcontroller::Jaction.controller = self
     end
 
     def append_execute_jaction
