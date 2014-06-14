@@ -27,34 +27,16 @@ module Jcontroller
           if hash[attribute]; self.send(attribute + "=", hash[attribute]) end
         end
       else
-        self.controller_path = if jaction.index("#")
-                                 split = jaction.split('#')
-                                 [split.first]
-                               else
-                                 s = jaction
-
-                                 split = s.split('?')
-                                 if split.size == 2
-                                   self.params = Rack::Utils.parse_nested_query(split.last)
-                                   if self.params[:jaction_params]
-                                     self.params = params[:jaction_params]
-                                   end
-                                   s = split.first
-                                 end
-
-                                 split = s.split('/')
-                                 split[0..-2]
-                               end
-
-        split = split.last.split(".")
-        if split.size == 2
-          self.action_name = split.first
-          self.format = split.last
+        match = jaction.match /(.+(?=\/|#))(?:[\/#](.+?(?=\.|\?|\z))(?:\.(.+?)(?=\?|\z)(?:\?(.+(?=\z)))?)?)?/
+        if match
+          %w[controller_path action_name format].zip((1..3)).each do |attribute, match_index|
+            value = match[match_index]
+            if value; send(attribute + "=", value) end
+          end
+          self.params = Rack::Utils.parse_nested_query(match[4])
+          if params[:jaction_params]; self.params = params[:jaction_params] end
         else
-          self.action_name = split.last
-        end
-        unless self.controller_path.empty?
-          self.controller_path = controller_path.join('/')
+          self.action_name = jaction
         end
       end
     end
