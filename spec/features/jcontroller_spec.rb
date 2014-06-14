@@ -45,7 +45,6 @@ feature 'invoke correct filter', :js => true do
     visit users_path
     test_elements filters('users', "index")
   end
-
   scenario 'with namespaced controller' do
     visit admin_users_path
     test_elements filters('admin/users', "index")
@@ -64,6 +63,12 @@ feature 'invoke correct filter', :js => true do
   scenario "with different action" do
     visit different_action_users_path
     test_elements filters('users', "index")
+  end
+  scenario "when stopped" do
+    visit stopped_users_path
+    within @test_append_selector do
+      all('div').size.should == 0
+    end
   end
 
   scenario 'with parameters template' do

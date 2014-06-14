@@ -11,6 +11,9 @@ class UsersController < ApplicationController
     END
   end
 
+  def stopped
+    js false
+  end
   def different_action
     js "users#index"
   end

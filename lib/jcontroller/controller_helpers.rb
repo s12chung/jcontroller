@@ -8,7 +8,11 @@ module Jcontroller
 
     protected
     def js(jaction)
-      self.jaction.parse(jaction)
+      if jaction == false
+        @stop_jaction = true
+      else
+        self.jaction.parse(jaction)
+      end
     end
 
     def execute_jaction(jaction=nil)
