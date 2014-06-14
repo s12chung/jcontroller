@@ -7,12 +7,12 @@ module Jcontroller
     end
 
     protected
-    def js(jaction)
+    def js(jaction, options={})
       if jaction == false
         @stop_jaction = true
       else
         self.jaction.parse(jaction)
-        # if options.has_key? :params; self.jaction.parse options end
+        if options.has_key? :params; self.jaction.parse options end
       end
     end
 

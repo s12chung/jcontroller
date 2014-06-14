@@ -70,10 +70,13 @@ feature 'invoke correct filter', :js => true do
     visit different_action_users_path
     test_elements filters('users', "index")
   end
-
   scenario 'with parameters' do
     visit manual_parameters_users_path
     test_elements filters('users', "manual_parameters"), "manual parameters"
+  end
+  scenario "with different action and parameters" do
+    visit action_and_parameters_users_path
+    test_elements filters('users', "index"), "action and manual parameters"
   end
   scenario 'with parameters template' do
     visit parameters_template_users_path

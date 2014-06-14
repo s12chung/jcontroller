@@ -21,6 +21,9 @@ class UsersController < ApplicationController
   def manual_parameters
     js :params => { :s => "manual parameters" }
   end
+  def action_and_parameters
+    js "users/index", { :params => { :s => "action and manual parameters" } }
+  end
 end
 
 module Admin
