@@ -53,9 +53,7 @@ feature 'invoke correct filter', :js => true do
 
   scenario 'with no action defined' do
     visit no_action_users_path
-    within @test_append_selector do
-      all('div').size.should == 0
-    end
+    test_elements filters('users', "no_action").delete_if {|namespace| namespace.rindex "no_action" }
   end
 
   scenario "with manual execution" do

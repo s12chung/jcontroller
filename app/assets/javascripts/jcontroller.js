@@ -21,7 +21,7 @@ var Jcontroller = {
                     },
 
                     execute_action: function(action_name) {
-                        if ($.isPlainObject(this.html) && $.isFunction(this.html[action_name])) {
+                        if ($.isPlainObject(this.html)) {
                             this.execute_post_order_filter('before');
                             this.execute_post_order_filter(action_name);
                             this.execute_pre_order_filter('after');
