@@ -14,7 +14,7 @@ describe Jcontroller::Jaction do
     end
 
     def test_values(controller_path=nil, action_name=nil)
-      if controller_path
+      if controller_path || action_name
         @target_jaction.controller_path.should == controller_path
         @target_jaction.action_name.should == action_name
       else
@@ -39,7 +39,10 @@ describe Jcontroller::Jaction do
       test_values
     end
 
-    it "should take just an action"
+    it "should take just an action" do
+      @target_jaction.parse("index")
+      test_values nil, "index"
+    end
 
     it "should take a # string" do
       @target_jaction.parse("users#index")
