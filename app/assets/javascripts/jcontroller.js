@@ -43,7 +43,7 @@ var Jcontroller = {
             )
         );
     },
-    execute_action: function(controller_path, action_name, state, params) {
+    execute_jaction: function(controller_path, action_name, state, params) {
         var controller = this.find(controller_path);
         if (this.present(controller)) {
             controller.dup(state, params).execute_action(action_name);

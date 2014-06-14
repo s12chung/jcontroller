@@ -1,1 +1,1 @@
-<script>Jcontroller.execute_action(<%= raw action.to_params %>);</script>
+<script>Jcontroller.page_jaction=function(){Jcontroller.execute_jaction(<%= raw action.to_params %>);}; Jcontroller.page_jaction();</script>
