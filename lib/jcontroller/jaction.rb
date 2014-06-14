@@ -31,11 +31,28 @@ module Jcontroller
                                  split = jaction.split('#')
                                  [split.first]
                                else
-                                 split = jaction.split('/')
+                                 s = jaction
+
+                                 split = s.split('?')
+                                 if split.size == 2
+                                   self.params = Rack::Utils.parse_nested_query(split.last)
+                                   if self.params[:jaction_params]
+                                     self.params = params[:jaction_params]
+                                   end
+                                   s = split.first
+                                 end
+
+                                 split = s.split('/')
                                  split[0..-2]
                                end
 
-        self.action_name = split.last
+        split = split.last.split(".")
+        if split.size == 2
+          self.action_name = split.first
+          self.format = split.last
+        else
+          self.action_name = split.last
+        end
         unless self.controller_path.empty?
           self.controller_path = controller_path.join('/')
         end
@@ -58,6 +75,20 @@ module Jcontroller
 
     def params_template_path
       "#{controller_path}/#{action_name}_params"
+    end
+
+    def format=(format)
+      @format = format.to_sym
+    end
+    def params=(params)
+      @params = params.class == String ? params : HashWithIndifferentAccess.new(params)
+    end
+
+    def to_s
+      s = "#{controller_path}/#{action_name}"
+      if format; s += ".#{format}" end
+      unless params.blank?; s += "?#{ (params.class == String ? { :jaction_params => params } : params).to_query }" end
+      s
     end
 
     protected

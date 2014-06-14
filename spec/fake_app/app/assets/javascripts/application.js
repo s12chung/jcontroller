@@ -24,7 +24,7 @@ create_routes = function(controller_path, extend) {
     hash.html.state = function() {
         $(test_append_selector).html(JSON.stringify(this.state));
     };
-    set_basic_filters('html', ["before", "after", "index", "manually_execute", "manual_parameters", "parameters_template"]);
+    set_basic_filters('html', ["before", "after", "index", "redirect",  "manually_execute", "manual_parameters", "parameters_template"]);
     set_basic_filters('js', ["before", "after", "index"]);
     if (Jcontroller.present(extend)) $.extend(hash, extend);
     Jcontroller.create(controller_path, hash);

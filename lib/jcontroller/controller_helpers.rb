@@ -12,10 +12,15 @@ module Jcontroller
         @stop_jaction = true
       else
         self.jaction.parse(jaction)
-        if options.has_key? :params; self.jaction.parse options end
+        if jaction.class.ancestors.include? Hash; options = jaction end
+        if options[:params]; self.jaction.parse options end
+        if options[:redirect]; flash[:jaction] = self.jaction.to_s end
       end
     end
 
+    def execute_flash_jaction
+      flash[:jaction] ? execute_jaction(flash[:jaction]) : "".html_safe
+    end
     def execute_jaction(jaction=self.jaction, options={})
       jaction = Jaction.new(jaction)
       if options.has_key? :params; jaction.parse options end

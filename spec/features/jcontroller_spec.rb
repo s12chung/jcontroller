@@ -71,6 +71,10 @@ feature 'invoke correct filter', :js => true do
       all('div').size.should == 0
     end
   end
+  scenario "when redirected" do
+    visit redirect_users_path
+    test_elements filters('users', "redirect") + filters('users', "index")
+  end
   scenario "with different action" do
     visit different_action_users_path
     test_elements filters('users', "index")

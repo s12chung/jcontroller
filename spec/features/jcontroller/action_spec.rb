@@ -18,39 +18,40 @@ describe Jcontroller::Jaction do
         @target_jaction.controller_path.should == controller_path
         @target_jaction.action_name.should == action_name
       else
-        Jcontroller::Jaction::ATTRIBUTES.each_with_index do |attribute, index|
-          @target_jaction.send(attribute).should == index
-        end
+        @target_jaction.controller_path.should == 0
+        @target_jaction.action_name.should == 1
+        @target_jaction.format.should == :js
+        @target_jaction.params.should == {}
       end
     end
 
     it "should take the passed Action's attributes" do
-      Jcontroller::Jaction::ATTRIBUTES.each_with_index do |attribute, index|
-        @jaction.send(attribute + "=", index)
-      end
+      @jaction.controller_path = 0
+      @jaction.action_name = 1
+      @jaction.format = :js
+      @jaction.params = {}
       @target_jaction.parse(@jaction)
       test_values
     end
 
     it "should take a hash" do
-      @target_jaction.parse(:controller_path => 0, :action_name => 1, :format => 2, :params => 3)
+      @target_jaction.parse(:controller_path => 0, :action_name => 1, :format => :js, :params => {})
       test_values
     end
+
+    it "should take just an action"
 
     it "should take a # string" do
       @target_jaction.parse("users#index")
       test_values "users", "index"
     end
 
-    it "should take a / string" do
-      @target_jaction.parse("users/index")
-      test_values "users", "index"
-
-    end
-
-    it "should take a namespaced path string" do
-      @target_jaction.parse("admin/users/index")
+    it "should take a namespaced / string with a format and parameters" do
+      @target_jaction.parse("admin/users/index.js?blah=meh&waka=baka")
       test_values "admin/users", "index"
+      @target_jaction.format.should == :js
+      @target_jaction.params[:blah].should == "meh"
+      @target_jaction.params[:waka].should == "baka"
     end
   end
 end

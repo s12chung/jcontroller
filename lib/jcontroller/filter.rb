@@ -20,14 +20,15 @@ module Jcontroller
     def append_execute_jaction
       unless @stop_jaction
         if formats.first == :html
+          jactions = execute_flash_jaction + execute_jaction
           partition_index = response_body[0].rindex('</body>')
 
           if partition_index
             head = response_body[0][0, partition_index].html_safe
             rail = response_body[0][partition_index..-1].html_safe
-            response.body = head + execute_jaction + rail
+            response.body = head + jactions + rail
           else
-            response.body += execute_jaction
+            response.body += jactions
           end
         else
           response.body = execute_jaction({ :params => response.body })

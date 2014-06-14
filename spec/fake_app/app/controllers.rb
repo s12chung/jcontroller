@@ -13,6 +13,10 @@ class UsersController < ApplicationController
   def stopped
     js false
   end
+  def redirect
+    js({ :redirect => true })
+    redirect_to users_path
+  end
   def different_action
     js "users#index"
   end
