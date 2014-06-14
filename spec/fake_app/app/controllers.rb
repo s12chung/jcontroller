@@ -3,12 +3,16 @@ class ApplicationController < ActionController::Base
 end
 
 class UsersController < ApplicationController
-  CUSTOM_ACTIONS = %w[state no_action manually_execute parameters_template]
-  (%w[index] + CUSTOM_ACTIONS).each do |action|
+  DEFAULT_ACTIONS = %w[state no_action manually_execute parameters_template]
+  (%w[index] + DEFAULT_ACTIONS).each do |action|
     class_eval <<-END
       def #{action}
       end
     END
+  end
+
+  def different_action
+    js "users#index"
   end
 end
 

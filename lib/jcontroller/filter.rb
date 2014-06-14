@@ -14,10 +14,9 @@ module Jcontroller
     def jaction; @jaction end
     def set_jaction; @jaction = Jcontroller::Jaction.new end
 
-    def set_jaction_controller
-      Jcontroller::Jaction.controller = self
-    end
+    def set_jaction_controller; Jcontroller::Jaction.controller = self end
 
+    def redirect?; self.status == 302 end
     def append_execute_jaction
       partition_index = response_body[0].rindex('</body>')
 
@@ -28,10 +27,6 @@ module Jcontroller
       else
         response.body += execute_jaction
       end
-    end
-
-    def redirect?
-      self.status == 302
     end
   end
 end

@@ -7,11 +7,15 @@ module Jcontroller
     end
 
     protected
+    def js(jaction)
+      self.jaction.parse(jaction)
+    end
+
     def execute_jaction(jaction=nil)
       view_context.render(
           :partial => 'jcontroller/execute_jaction',
           :locals => {
-              action: Jaction.new(jaction) || self.jaction
+              action: jaction ? Jaction.new(jaction) : self.jaction
           }
       )
     end

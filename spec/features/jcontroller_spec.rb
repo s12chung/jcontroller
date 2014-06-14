@@ -59,8 +59,13 @@ feature 'invoke correct filter', :js => true do
   end
 
   scenario "with manual execution" do
-    visit '/users/manually_execute'
+    visit manually_execute_users_path
     test_elements (filters('users', "index") + filters('users', 'manually_execute'))
+  end
+
+  scenario "with different action" do
+    visit different_action_users_path
+    test_elements filters('users', "index")
   end
 
   scenario 'with parameters template' do
