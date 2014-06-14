@@ -16,11 +16,13 @@ module Jcontroller
       end
     end
 
-    def execute_jaction(jaction=nil)
+    def execute_jaction(jaction=self.jaction, options={})
+      jaction = Jaction.new(jaction)
+      if options.has_key? :params; jaction.parse options end
       view_context.render(
           :partial => 'jcontroller/execute_jaction',
           :locals => {
-              action: jaction ? Jaction.new(jaction) : self.jaction
+              jaction: jaction
           }
       )
     end

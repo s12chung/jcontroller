@@ -18,15 +18,19 @@ module Jcontroller
 
     def redirect?; self.status == 302 end
     def append_execute_jaction
-      if !@stop_jaction && formats.first == :html
-        partition_index = response_body[0].rindex('</body>')
+      unless @stop_jaction
+        if formats.first == :html
+          partition_index = response_body[0].rindex('</body>')
 
-        if partition_index
-          head = response_body[0][0, partition_index].html_safe
-          rail = response_body[0][partition_index..-1].html_safe
-          response.body = head + execute_jaction + rail
+          if partition_index
+            head = response_body[0][0, partition_index].html_safe
+            rail = response_body[0][partition_index..-1].html_safe
+            response.body = head + execute_jaction + rail
+          else
+            response.body += execute_jaction
+          end
         else
-          response.body += execute_jaction
+          response.body = execute_jaction({ :params => response.body })
         end
       end
     end

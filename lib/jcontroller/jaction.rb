@@ -42,8 +42,8 @@ module Jcontroller
       end
     end
 
-    def to_params(string_params=nil)
-      [state.to_json, string_params ? string_params : self.string_params].join(",")
+    def to_params
+      [state.to_json, string_params].join(",")
     end
 
     def state
@@ -62,7 +62,7 @@ module Jcontroller
 
     protected
     def string_params
-      self.class.controller.send(:jcontroller_params, self) || params.to_json
+      self.class.controller.send(:jcontroller_params, self) || (params.class == String ? params : params.to_json)
     end
 
     class << self

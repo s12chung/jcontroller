@@ -14,7 +14,7 @@ test_append = function(controller_namespace, filter, params) {
 create_routes = function(controller_path, extend) {
     var set_basic_filters = function(format, filters) {
         $.each(filters, function(index, filter) {
-            hash.html[filter] = function() {
+            hash[format][filter] = function() {
                 test_append(controller_path, filter, this.params);
             }
         });
