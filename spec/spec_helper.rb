@@ -1,9 +1,10 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
+Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each {|f| require f}
+
 require 'fake_app/fake_app'
-require 'capybara-webkit'
 require 'rspec/rails'
 
-Capybara.javascript_driver = :webkit
-Capybara.default_wait_time = 15
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist

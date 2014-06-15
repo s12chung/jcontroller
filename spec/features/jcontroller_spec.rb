@@ -105,6 +105,7 @@ feature 'invoke correct filter', :js => true do
     scenario "basic controller" do
       visit stopped_users_path
       click_link "ajax link"
+      wait_for_ajax
       test_elements filters('users', "index"), "ajax parameter"
     end
   end
