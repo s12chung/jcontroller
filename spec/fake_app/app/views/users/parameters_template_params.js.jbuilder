@@ -1,1 +1,1 @@
-json.s "parameter template"
+json.s @parameter_string

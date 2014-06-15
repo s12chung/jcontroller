@@ -3,11 +3,15 @@ class ApplicationController < ActionController::Base
 end
 
 class UsersController < ApplicationController
-  DEFAULT_ACTIONS = %w[state no_action manually_execute parameters_template]
+  DEFAULT_ACTIONS = %w[state no_action manually_execute]
   (%w[index] + DEFAULT_ACTIONS).each do |action|
     class_eval <<-END
       def #{action};end
     END
+  end
+
+  def parameters_template
+    @parameter_string = "parameter template"
   end
 
   def stopped

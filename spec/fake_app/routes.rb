@@ -4,6 +4,7 @@ FakeApp::Application.routes.draw do
       UsersController::DEFAULT_ACTIONS.each do |action|
         get action
       end
+      get :parameters_template
       get :stopped
       get :redirect
       get :redirect_simple
