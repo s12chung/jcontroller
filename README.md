@@ -4,7 +4,7 @@ Rails controller based javascript to keep your javascript outside of your views.
 Based off [Paul Irish's DOM-based Routing](http://www.paulirish.com/2009/markup-based-unobtrusive-comprehensive-dom-ready-execution/)
 (or Garber-Irish Implementation). __Works with turbolinks__
 
-# How it works
+## How it works
 ```javascript
     Jcontroller.create('users', {
         html: {
@@ -15,19 +15,19 @@ Based off [Paul Irish's DOM-based Routing](http://www.paulirish.com/2009/markup-
 ```
 No other code is needed.
 
-# Installation
+## Installation
 Add `gem 'dom_routes'` to your application's `Gemfile` and run the `bundle` command, then add this to your `app/assets/javascripts/application.js`
 
     //= require dom_routes
     
-# Controllers
-## Namespaces
+## Controllers
+### Namespaces
 Jcontroller creation and finding are based off the controller path.
 ```javascript
     // for Admin::UsersController
     Jcontroller.create('admin/users', {});
 ```
-## Filters
+### Filters
 Jcontrollers can be created with before and after filters like so:
 ```javascript
     Jcontroller.create('users', {
@@ -41,7 +41,7 @@ Jcontrollers can be created with before and after filters like so:
         }
     });
 ```
-## Inheritance
+### Inheritance
 By default, jcontrollers inherit from the `application` jcontroller and will execute it if it exists, such as:
 ```javascript
     Jcontroller.create('application', {
@@ -67,8 +67,8 @@ You can also set your own inhertance chain:
         ...
     });
 ```
-# Parameters
-## Access
+## Parameters
+### Access
 Parameters are accessed from `this.params`:
 ```javascript
     Jcontroller.create('users', {
@@ -81,7 +81,7 @@ Parameters are accessed from `this.params`:
 ```
 The request state (controller_path, action_name, jcontroller, etc.) are also given in `this.state`.
 
-## Manual
+### Manual
 Use the `js` method with the `params` option.
 ```ruby
     class UsersController < ApplicationController
@@ -91,15 +91,15 @@ Use the `js` method with the `params` option.
         end
     end
 ```
-## From view template
+### From view template
 You can also create parameters using a JSON DSL (such as [jbuilder](https://github.com/rails/jbuilder/)) by creating a template named `<action_name>_params.js.<DSL suffix>`:
 `app/views/users/show_params.js.jbuilder`:
 ```ruby
 json.id @user.id
 ```
 
-# Controlling javascript execution
-## Stop
+## Controlling javascript execution
+### Stop
 Stop all execution of all filters and methods for the action:
 ```ruby
     class UsersController < ApplicationController
@@ -108,7 +108,7 @@ Stop all execution of all filters and methods for the action:
         end
     end
 ```
-## Different jcontroller
+### Different jcontroller
 Execute a different jcontroller:
 ```ruby
     class UsersController < ApplicationController
@@ -118,13 +118,13 @@ Execute a different jcontroller:
     end
 ```
 
-## HTML view
+### HTML view
 Execute all filters and actions related to a action:
 ```erb
     <%= execute_jaction "users/show.html", { :params => { ... } }  # same as "users#index.html", parameters and options are optional %>
 ``
 
-## Manually filter in Javascript
+### Manually filter in Javascript
 You can use the given state to stop execution of functions:
 ```javascript
     Jcontroller.create('application', {
@@ -135,7 +135,7 @@ You can use the given state to stop execution of functions:
         }
     });
 ```
-## Redirect
+### Redirect
 You can execute all filters and functions action before the redirected action using:
 ```ruby
     class UsersController < ApplicationController
