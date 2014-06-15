@@ -6,12 +6,12 @@ Based off [Paul Irish's DOM-based Routing](http://www.paulirish.com/2009/markup-
 
 ## How it works
 ```javascript
-    Jcontroller.create('users', {
-        html: {
-            // executes whenever users#index with html format is executed
-            index: function() {}
-        }
-    });
+Jcontroller.create('users', {
+    html: {
+        // executes whenever users#index with html format is executed
+        index: function() {}
+    }
+});
 ```
 No other code is needed.
 
@@ -24,33 +24,33 @@ Add `gem 'dom_routes'` to your application's `Gemfile` and run the `bundle` comm
 ### Namespaces
 Jcontroller creation and finding are based off the controller path.
 ```javascript
-    // for Admin::UsersController
-    Jcontroller.create('admin/users', {});
+// for Admin::UsersController
+Jcontroller.create('admin/users', {});
 ```
 ### Filters
 Jcontrollers can be created with before and after filters like so:
 ```javascript
-    Jcontroller.create('users', {
-        html: {
-            // executes for all html format responses for UsersController, before the specific action
-            before: function() {}
-            // executes whenever users#index with html format is executed
-            index: function() {}
-            // executes for all html format responses for UsersController, after the specific action
-            after: function() {}
-        }
-    });
+Jcontroller.create('users', {
+    html: {
+        // executes for all html format responses for UsersController, before the specific action
+        before: function() {}
+        // executes whenever users#index with html format is executed
+        index: function() {}
+        // executes for all html format responses for UsersController, after the specific action
+        after: function() {}
+    }
+});
 ```
 ### Inheritance
 By default, jcontrollers inherit from the `application` jcontroller and will execute it if it exists, such as:
 ```javascript
-    Jcontroller.create('application', {
-        html: {
-            before: function() {}
-            index: function() {}
-            after: function() {}
-        }
-    });
+Jcontroller.create('application', {
+    html: {
+        before: function() {}
+        index: function() {}
+        after: function() {}
+    }
+});
 ```
 So with the jcontrollers above the order of execution is:
 - `application.before`
@@ -62,34 +62,34 @@ So with the jcontrollers above the order of execution is:
 
 You can also set your own inhertance chain:
 ```javascript
-    Jcontroller.create('users', { 
-        parent_path: 'users_base',
-        ...
-    });
+Jcontroller.create('users', { 
+    parent_path: 'users_base',
+    ...
+});
 ```
 ## Parameters
 ### Access
 Parameters are accessed from `this.params`:
 ```javascript
-    Jcontroller.create('users', {
-        html: {
-            index: function() {
-                console.log(this.params);
-            }
+Jcontroller.create('users', {
+    html: {
+        index: function() {
+            console.log(this.params);
         }
-    });
+    }
+});
 ```
 The request state (controller_path, action_name, jcontroller, etc.) are also given in `this.state`.
 
 ### Manual
 Use the `js` method with the `params` option.
 ```ruby
-    class UsersController < ApplicationController
-        def show
-            @user = User.find(params[:id])
-            js { :params => { :id => @user.id } }
-        end
+class UsersController < ApplicationController
+    def show
+        @user = User.find(params[:id])
+        js { :params => { :id => @user.id } }
     end
+end
 ```
 ### From view template
 You can also create parameters using a JSON DSL (such as [jbuilder](https://github.com/rails/jbuilder/)) by creating a template named `<action_name>_params.js.<DSL suffix>`:
@@ -102,55 +102,55 @@ json.id @user.id
 ### Stop
 Stop all execution of all filters and methods for the action:
 ```ruby
-    class UsersController < ApplicationController
-        def index
-            js false
-        end
+class UsersController < ApplicationController
+    def index
+        js false
     end
+end
 ```
 ### Different jcontroller
 Execute a different jcontroller:
 ```ruby
-    class UsersController < ApplicationController
-        def index
-            js "users/show.html", { :params => { ... } }  # same as "users#index.html", parameters and options are optional
-        end
+class UsersController < ApplicationController
+    def index
+        js "users/show.html", { :params => { ... } }  # same as "users#index.html", parameters and options are optional
     end
+end
 ```
 
 ### HTML view
 Execute all filters and actions related to a action:
 ```erb
-    <%= execute_jaction "users/show.html", { :params => { ... } }  # same as "users#index.html", parameters and options are optional %>
+<%= execute_jaction "users/show.html", { :params => { ... } }  # same as "users#index.html", parameters and options are optional %>
 ``
 
 ### Manually filter in Javascript
 You can use the given state to stop execution of functions:
 ```javascript
-    Jcontroller.create('application', {
-        html: {
-            before: function() {
-                if (this.state.action_name === 'destroy') { }
-            }
+Jcontroller.create('application', {
+    html: {
+        before: function() {
+            if (this.state.action_name === 'destroy') { }
         }
-    });
+    }
+});
 ```
 ### Redirect
 You can execute all filters and functions action before the redirected action using:
 ```ruby
-    class UsersController < ApplicationController
-        def index
-            js { :redirect => true }
-            redirect_to user_path(User.first)
-        end
+class UsersController < ApplicationController
+    def index
+        js { :redirect => true }
+        redirect_to user_path(User.first)
     end
+end
 ```
 So `users/index.html` will be executed before `users/show.html`.
 
 ## Ajax
 You can optionally execute jcontrollers for ajax instead of writing javascript in views by turning it in `config/application.rb`:
 ```ruby
-    Jcontroller.ajax = true
+Jcontroller.ajax = true
 ```
 Jcontrollers will automatically execute with parameters given by the template with a JSON DSL:
 ```ruby
