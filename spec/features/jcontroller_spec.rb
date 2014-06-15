@@ -44,6 +44,7 @@ feature 'invoke correct filter', :js => true do
   end
 
   scenario 'with basic controller' do
+    puts page.html
     visit users_path
     test_elements filters('users', "index")
   end
