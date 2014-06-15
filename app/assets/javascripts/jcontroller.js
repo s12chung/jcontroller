@@ -26,12 +26,12 @@ var Jcontroller = {
                         }
                     },
                     execute_post_order_filter: function(filter) {
-                        if (Jcontroller.present(this.parent())) this.parent().execute_post_order_filter(filter);
+                        if (Jcontroller.present(this.parent())) { this.parent().execute_post_order_filter(filter); }
                         this.execute_filter(this[this.format][filter]);
                     },
                     execute_pre_order_filter: function(filter) {
                         this.execute_filter(this[this.format][filter]);
-                        if (Jcontroller.present(this.parent())) this.parent().execute_pre_order_filter(filter);
+                        if (Jcontroller.present(this.parent())) { this.parent().execute_pre_order_filter(filter); }
                     },
                     execute_filter: function(filter) {
                         if ($.isFunction(filter)) { $.proxy(filter, this)(); }
