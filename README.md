@@ -113,7 +113,8 @@ Execute a different jcontroller:
 ```ruby
 class UsersController < ApplicationController
     def index
-        js "users/show.html", { :params => { ... } }  # same as "users#index.html", parameters and options are optional
+        # same as "users#index.html", parameters and options are optional
+        js "users/show.html", { :params => { ... } }
     end
 end
 ```
@@ -121,8 +122,9 @@ end
 ### HTML view
 Execute all filters and actions related to a action:
 ```erb
-<%= execute_jaction "users/show.html", { :params => { ... } }  # same as "users#index.html", parameters and options are optional %>
-``
+<!-- same as "users#index.html", parameters and options are optional -->
+<%= execute_jaction "users/show.html", { :params => { ... } } %>
+```
 
 ### Manually filter in Javascript
 You can use the given state to stop execution of functions:
@@ -136,7 +138,7 @@ Jcontroller.create('application', {
 });
 ```
 ### Redirect
-You can execute all filters and functions action before the redirected action using:
+You can execute all filters and functions of the current action before the redirected action using:
 ```ruby
 class UsersController < ApplicationController
     def index
