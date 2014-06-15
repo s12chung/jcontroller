@@ -93,8 +93,8 @@ Use the `js` method with the `params` option.
 ```
 ### From view template
 You can also create parameters using a JSON DSL (such as [jbuilder](https://github.com/rails/jbuilder/)) by creating a template named `<action_name>_params.js.<DSL suffix>`:
-`app/views/users/show_params.js.jbuilder`:
 ```ruby
+# app/views/users/show_params.js.jbuilder
 json.id @user.id
 ```
 
@@ -146,6 +146,17 @@ You can execute all filters and functions action before the redirected action us
     end
 ```
 So `users/index.html` will be executed before `users/show.html`.
+
+## Ajax
+You can optionally execute jcontrollers for ajax instead of writing javascript in views by turning it in `config/application.rb`:
+```ruby
+    Jcontroller.ajax = true
+```
+Jcontrollers will automatically execute with parameters given by the template with a JSON DSL:
+```ruby
+# app/views/users/show.js.jbuilder
+json.id @user.id
+```
 
 ## Credits
 Extracted out of [Placemark](https://www.placemarkhq.com/). Originally called [dom_routes](https://github.com/s12chung/dom_routes). An alternative is [paloma](https://github.com/kbparagua/paloma).
