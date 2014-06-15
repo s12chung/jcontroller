@@ -17,11 +17,12 @@ feature 'invoke correct filter', :js => true do
     filters + controller_namespaces.map {|controller_namespace| filter_namespace(controller_namespace, "after") }.reverse
   end
 
-  def test_elements(filters, parameter=nil)
+  def test_elements(filters, parameters="")
+    if parameters.class == String; parameters = [parameters] * filters.size end
     within @test_append_selector do
-      filters.zip(all('div')).each do |filter, div|
-        div[:filter].should == filter
-        div.text.should == (parameter ? parameter : "")
+      (0..filters.size-1).zip(all('div')).each do |index, div|
+        div[:filter].should == filters[index]
+        div.text.should == parameters[index]
       end
     end
   end
@@ -73,7 +74,15 @@ feature 'invoke correct filter', :js => true do
   end
   scenario "when redirected" do
     visit redirect_users_path
-    test_elements filters('users', "redirect") + filters('users', "index")
+    redirect_filters = filters('users', "redirect")
+    index_filters = filters('users', "index")
+    test_elements redirect_filters + index_filters, ["redirect template"] * redirect_filters.size + [""] * redirect_filters.size
+  end
+  scenario "when redirected with parameters template" do
+    visit redirect_simple_users_path
+    redirect_filters = filters('users', "redirect_simple")
+    index_filters = filters('users', "index")
+    test_elements redirect_filters + index_filters, ["redirect parameters"] * redirect_filters.size + [""] * redirect_filters.size
   end
   scenario "with different action" do
     visit different_action_users_path

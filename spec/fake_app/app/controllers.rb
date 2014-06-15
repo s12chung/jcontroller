@@ -17,6 +17,10 @@ class UsersController < ApplicationController
     js({ :redirect => true })
     redirect_to users_path
   end
+  def redirect_simple
+    js({ :redirect => true, :params => { s: "redirect parameters" } })
+    redirect_to users_path
+  end
   def different_action
     js "users#index"
   end
