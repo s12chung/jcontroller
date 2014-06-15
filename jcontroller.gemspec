@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Steve Chung"]
   spec.email         = ["steve.chung7@gmail.com"]
   spec.summary       = %q{ Controller based javascript outside of your view files. }
-  spec.description   = %q{ Controller based javascript outside of your view files. }
+  spec.description   = %q{ DOM-based Routing for Rails controller based javascript. }
   spec.homepage      = "https://github.com/s12chung/jcontroller"
   spec.license       = "MIT"
 
