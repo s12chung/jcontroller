@@ -6,9 +6,7 @@ var Jcontroller = {
             $.extend({
                     parent_path: controller_path === this.application_controller_path ? undefined : "application",
                     parent: function() {
-                        if (Jcontroller.blank(this.parent_cache)) {
-                            this.parent_cache =  Jcontroller.find(this.parent_path);
-                        }
+                        if (Jcontroller.blank(this.parent_cache)) { this.parent_cache =  Jcontroller.find(this.parent_path); }
                         return this.parent_cache;
                     },
 
@@ -16,7 +14,7 @@ var Jcontroller = {
                         var dup = $.extend({}, this, state.jaction);
                         dup.state = state;
                         dup.params = params;
-                        if (Jcontroller.present(dup.parent())) dup.parent_cache = dup.parent().dup(state, params);
+                        if (Jcontroller.present(dup.parent())) { dup.parent_cache = dup.parent().dup(state, params); }
                         return dup;
                     },
 
@@ -36,7 +34,7 @@ var Jcontroller = {
                         if (Jcontroller.present(this.parent())) this.parent().execute_pre_order_filter(filter);
                     },
                     execute_filter: function(filter) {
-                        if ($.isFunction(filter)) $.proxy(filter, this)();
+                        if ($.isFunction(filter)) { $.proxy(filter, this)(); }
                     }
                 },
                 definition
@@ -45,9 +43,7 @@ var Jcontroller = {
     },
     execute_jaction: function(state, params) {
         var controller = this.find(state.jaction.controller_path);
-        if (this.present(controller)) {
-            controller.dup(state, params).execute_action();
-        }
+        if (this.present(controller)) { controller.dup(state, params).execute_action(); }
     },
 
     blank: function(o) { return typeof o === "undefined" || o === null; },
@@ -59,14 +55,14 @@ var Jcontroller = {
     get_or_create: function(namespace_string) {
         var current_namepace = window;
         $.each(namespace_string.split('/'), function(index, level) {
-            if (Jcontroller.blank(current_namepace[level])) current_namepace[level] = {};
+            if (Jcontroller.blank(current_namepace[level])) { current_namepace[level] = {}; }
             current_namepace = current_namepace[level];
         });
 
         return current_namepace;
     },
     find: function(controller_path) {
-        if (this.blank(controller_path)) return undefined;
+        if (this.blank(controller_path)) { return undefined; }
         var namespace_string = this.controllers_path + controller_path;
 
         var current_namepace = window;
