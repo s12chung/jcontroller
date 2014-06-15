@@ -27,6 +27,12 @@ feature 'invoke correct filter', :js => true do
     end
   end
 
+  def test_no_elements
+    within @test_append_selector do
+      all('div').size.should == 0
+    end
+  end
+
   it "should pass the state of the request" do
     visit state_users_path
     find(@test_append_selector).text.should == {
@@ -68,9 +74,7 @@ feature 'invoke correct filter', :js => true do
 
   scenario "when stopped" do
     visit stopped_users_path
-    within @test_append_selector do
-      all('div').size.should == 0
-    end
+    test_no_elements
   end
   scenario "when redirected" do
     visit redirect_users_path
@@ -102,6 +106,13 @@ feature 'invoke correct filter', :js => true do
   end
 
   context "with ajax" do
+    scenario "ajax off" do
+      visit stopped_users_path(ajax_off: true)
+      click_link "ajax link"
+      wait_for_ajax
+      test_no_elements
+    end
+
     scenario "basic controller" do
       visit stopped_users_path
       click_link "ajax link"

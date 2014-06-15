@@ -30,7 +30,7 @@ module Jcontroller
           else
             response.body += jactions
           end
-        else
+        elsif Jcontroller.ajax
           response.body = execute_jaction({ :params => response.body })
         end
       end
