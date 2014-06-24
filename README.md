@@ -82,8 +82,11 @@ Jcontroller.create('users', {
             
             var jcontroller = JController.find('application');
             self.parent(); // === jcontroller
-            jcontroller.execute_jaction(this.state, this.params); //excute application_jcontroller for this state and params again
-            jcontroller.html.index(); //execute application_jcontroller html.index function
+            
+            //excute application_jcontroller for this state and params again
+            jcontroller.execute_jaction(this.state, this.params);
+            //execute application_jcontroller html.index function
+            jcontroller.html.index();
         }
     }
 });
@@ -137,7 +140,7 @@ Execute all filters and actions related to a action:
 ```
 
 ### Manually filter in Javascript
-You can use the given [state](#access) to stop execution of functions:
+You can use the given [state](#api) to stop execution of functions:
 ```javascript
 Jcontroller.create('application', {
     html: {
