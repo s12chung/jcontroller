@@ -69,17 +69,20 @@ Jcontroller.create('users', {
 ```
 ## Parameters
 ### Access
-Parameters are accessed from `this.params`:
+Parameters are accessed from `this.params` or as the first parameter:
 ```javascript
 Jcontroller.create('users', {
     html: {
-        index: function() {
+        index: function(params, state) {
+            //this.params === params
             console.log(this.params);
+            //this.state === state
+            console.log(this.state);
         }
     }
 });
 ```
-The request state (controller_path, action_name, jcontroller, etc.) are also given in `this.state`.
+The request state (controller_path, action_name, jcontroller, etc.) are also given in `this.state` or the second parameter.
 
 ### Manual
 Use the `js` method with the `params` option.
@@ -127,7 +130,7 @@ Execute all filters and actions related to a action:
 ```
 
 ### Manually filter in Javascript
-You can use the given state to stop execution of functions:
+You can use the given [state](#access) to stop execution of functions:
 ```javascript
 Jcontroller.create('application', {
     html: {
