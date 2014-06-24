@@ -84,7 +84,7 @@ Jcontroller.create('users', {
             self.parent(); // === jcontroller
             
             //excute application_jcontroller for this state and params again
-            jcontroller.execute_jaction(this.state, this.params);
+            jcontroller.execute_jaction(this.params, this.state);
             //execute application_jcontroller html.index function
             jcontroller.html.index();
         }

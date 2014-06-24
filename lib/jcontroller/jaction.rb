@@ -42,7 +42,7 @@ module Jcontroller
     end
 
     def to_params
-      [state.to_json, string_params].join(",")
+      [string_params, state.to_json].join(",")
     end
 
     def state

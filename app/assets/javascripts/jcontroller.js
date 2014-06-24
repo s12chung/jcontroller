@@ -10,11 +10,11 @@ var Jcontroller = {
                         return this.parent_cache;
                     },
 
-                    dup: function(state, params) {
+                    dup: function(params, state) {
                         var dup = $.extend({}, this, state.jaction);
-                        dup.state = state;
                         dup.params = params;
-                        if (Jcontroller.present(dup.parent())) { dup.parent_cache = dup.parent().dup(state, params); }
+                        dup.state = state;
+                        if (Jcontroller.present(dup.parent())) { dup.parent_cache = dup.parent().dup(params, state); }
                         return dup;
                     },
 
@@ -41,9 +41,9 @@ var Jcontroller = {
             )
         );
     },
-    execute_jaction: function(state, params) {
+    execute_jaction: function(params, state) {
         var controller = this.find(state.jaction.controller_path);
-        if (this.present(controller)) { controller.dup(state, params).execute_action(); }
+        if (this.present(controller)) { controller.dup(params, state).execute_action(); }
     },
 
     blank: function(o) { return typeof o === "undefined" || o === null; },
