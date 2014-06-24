@@ -52,9 +52,11 @@ module Jcontroller
     end
 
     def jcontroller_params(action)
-      with_format :js do
-        if lookup_context.template_exists? action.params_template_path
-          view_context.render(:template => action.params_template_path)
+      if formats.first == :html
+        with_format :js do
+          if lookup_context.template_exists? action.params_template_path
+            view_context.render(:template => action.params_template_path)
+          end
         end
       end
     end

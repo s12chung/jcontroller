@@ -1,1 +1,1 @@
-json.s @parameter_string
+json.s @parameter_string + "_params"

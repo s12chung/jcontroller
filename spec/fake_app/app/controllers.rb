@@ -11,11 +11,10 @@ class UsersController < ApplicationController
   end
 
   def parameters_template
-    @parameter_string = "parameter template"
+    @parameter_string = "parameter template #{formats.first}"
   end
 
   def stopped
-    Jcontroller.ajax = !params[:ajax_off]
     js false
   end
   def redirect

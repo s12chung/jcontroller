@@ -9,12 +9,14 @@ feature 'invoke correct filter', :js => true do
     "#{controller_namespace}/#{format}/#{filter}"
   end
 
-  def filters(controller_namespace, action, parent_namespaces=%w[application])
-    controller_namespaces = parent_namespaces + [controller_namespace]
+  def filters(controller_namespace, action, options={})
+    options = options.reverse_merge({ :parent_namespaces => %w[application], :format => "html" })
+
+    controller_namespaces = options[:parent_namespaces] + [controller_namespace]
     filters = []
-    filters += controller_namespaces.map {|controller_namespace| filter_namespace(controller_namespace, "before") }
-    filters += controller_namespaces.map {|controller_namespace| filter_namespace(controller_namespace, action) }
-    filters + controller_namespaces.map {|controller_namespace| filter_namespace(controller_namespace, "after") }.reverse
+    filters += controller_namespaces.map {|controller_namespace| filter_namespace(controller_namespace, "before", options[:format]) }
+    filters += controller_namespaces.map {|controller_namespace| filter_namespace(controller_namespace, action, options[:format]) }
+    filters + controller_namespaces.map {|controller_namespace| filter_namespace(controller_namespace, "after", options[:format]) }.reverse
   end
 
   def test_elements(filters, parameters="")
@@ -59,7 +61,7 @@ feature 'invoke correct filter', :js => true do
   end
   scenario 'with superclassed controller' do
     visit superusers_path
-    test_elements filters('superusers', "index", %w[application users])
+    test_elements filters('superusers', "index", { :parent_namespaces => %w[application users]})
   end
   scenario 'with empty parent controller' do
     visit empty_parents_path
@@ -106,12 +108,20 @@ feature 'invoke correct filter', :js => true do
   end
   scenario 'with parameters template' do
     visit parameters_template_users_path
-    test_elements filters('users', "parameters_template"), "parameter template"
+    test_elements filters('users', "parameters_template"), "parameter template html_params"
   end
 
   context "with ajax" do
+    before :each do
+      Jcontroller.ajax = true
+    end
+    after :each do
+      Jcontroller.ajax = nil
+    end
+
     scenario "ajax off" do
-      visit stopped_users_path(ajax_off: true)
+      Jcontroller.ajax = nil
+      visit stopped_users_path
       click_link "ajax link"
       wait_for_ajax
       test_no_elements
@@ -121,7 +131,14 @@ feature 'invoke correct filter', :js => true do
       visit stopped_users_path
       click_link "ajax link"
       wait_for_ajax
-      test_elements filters('users', "index"), "ajax parameter"
+      test_elements filters('users', "index", { :format => "js"}), "ajax parameter"
+    end
+
+    scenario "with _params template existing" do
+      visit parameters_template_users_path
+      click_link "ajax link"
+      wait_for_ajax
+      test_elements filters('users', "parameters_template", { :format => "js"}), "parameter template js"
     end
   end
 end
