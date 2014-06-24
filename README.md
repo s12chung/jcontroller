@@ -67,9 +67,10 @@ Jcontroller.create('users', {
     ...
 });
 ```
-## Parameters
-### Access
-Parameters are accessed from `this.params` or as the first parameter:
+### API
+- Parameters are accessed from `this.params` or as the first parameter
+- The request state (controller_path, action_name, jcontroller, etc.) are also given in `this.state` or the second parameter
+- And other methods to work with jcontrollers
 ```javascript
 Jcontroller.create('users', {
     html: {
@@ -78,12 +79,18 @@ Jcontroller.create('users', {
             console.log(this.params);
             //this.state === state
             console.log(this.state);
+            
+            var jcontroller = JController.find('application');
+            self.parent(); // === jcontroller
+            jcontroller.execute_jaction(this.state, this.params); //excute application_jcontroller for this state and params again
+            jcontroller.html.index(); //execute application_jcontroller html.index function
         }
     }
 });
 ```
-The request state (controller_path, action_name, jcontroller, etc.) are also given in `this.state` or the second parameter.
-
+### Organization
+I like having a jcontrollers directory and calling my files as jcontroller files (ex. users_jcontroller.js).
+## Parameters
 ### Manual
 Use the `js` method with the `params` option.
 ```ruby
