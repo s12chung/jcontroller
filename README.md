@@ -16,9 +16,9 @@ Jcontroller.create('users', {
 No other code is needed.
 
 ## Installation
-Add `gem 'jconroller'` to your application's `Gemfile` and run the `bundle` command, then add this to your `app/assets/javascripts/application.js`
+Add `gem 'jcontroller'` to your application's `Gemfile` and run the `bundle` command, then add this to your `app/assets/javascripts/application.js`
 
-    //= require jconroller
+    //= require jcontroller
     
 ## Controllers
 ### Namespaces
