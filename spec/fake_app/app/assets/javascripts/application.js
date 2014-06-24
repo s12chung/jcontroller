@@ -14,8 +14,10 @@ test_append = function(controller_namespace, filter, params) {
 create_routes = function(controller_path, extend) {
     var set_basic_filters = function(format, filters) {
         $.each(filters, function(index, filter) {
-            hash[format][filter] = function() {
-                test_append(controller_path, filter, this.params);
+            hash[format][filter] = function(params, state) {
+                if (this.params.s === params.s && this.state.action_name === state.action_name) {
+                    test_append(controller_path, filter, this.params);
+                }
             }
         });
     };

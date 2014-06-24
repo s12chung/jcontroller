@@ -34,7 +34,7 @@ var Jcontroller = {
                         if (Jcontroller.present(this.parent())) { this.parent().execute_pre_order_filter(filter); }
                     },
                     execute_filter: function(filter) {
-                        if ($.isFunction(filter)) { $.proxy(filter, this)(); }
+                        if ($.isFunction(filter)) { $.proxy(filter, this)(this.params, this.state); }
                     }
                 },
                 definition
