@@ -43,6 +43,11 @@ class SuperusersController < UsersController
   end
 end
 
+class EmptyParentsController < ApplicationController
+  def index
+  end
+end
+
 module Admin
   class UsersController < ApplicationController
     def index

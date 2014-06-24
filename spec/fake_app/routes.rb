@@ -14,6 +14,7 @@ FakeApp::Application.routes.draw do
     end
   end
   resources :superusers, :only => %w[index]
+  resources :empty_parents, :only => %w[index]
 
   namespace :admin do
     resources :users, :only => %w[index]

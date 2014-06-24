@@ -19,22 +19,24 @@ var Jcontroller = {
                     },
 
                     execute_action: function() {
-                        if ($.isPlainObject(this[this.format])) {
-                            this.execute_post_order_filter('before');
-                            this.execute_post_order_filter(this.action_name);
-                            this.execute_pre_order_filter('after');
-                        }
+                        this.execute_post_order_filter('before');
+                        this.execute_post_order_filter(this.action_name);
+                        this.execute_pre_order_filter('after');
                     },
                     execute_post_order_filter: function(filter) {
                         if (Jcontroller.present(this.parent())) { this.parent().execute_post_order_filter(filter); }
-                        this.execute_filter(this[this.format][filter]);
+                        this.execute_filter(filter);
                     },
                     execute_pre_order_filter: function(filter) {
-                        this.execute_filter(this[this.format][filter]);
+                        this.execute_filter(filter);
                         if (Jcontroller.present(this.parent())) { this.parent().execute_pre_order_filter(filter); }
                     },
                     execute_filter: function(filter) {
-                        if ($.isFunction(filter)) { $.proxy(filter, this)(this.params, this.state); }
+                        var f = this[this.format];
+                        if (!$.isPlainObject(f)) { return; }
+                        f = f[filter];
+                        if (!$.isFunction(f)) { return; }
+                        $.proxy(f, this)(this.params, this.state);
                     }
                 },
                 definition

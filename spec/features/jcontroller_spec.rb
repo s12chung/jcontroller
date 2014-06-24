@@ -61,6 +61,10 @@ feature 'invoke correct filter', :js => true do
     visit superusers_path
     test_elements filters('superusers', "index", %w[application users])
   end
+  scenario 'with empty parent controller' do
+    visit empty_parents_path
+    test_elements filters('empty_parents', "index")
+  end
 
   scenario 'with no action defined' do
     visit no_action_users_path
