@@ -19,7 +19,7 @@ var Jcontroller = {
                     },
 
                     execute_action: function() {
-                        if ($.isPlainObject(this.html)) {
+                        if ($.isPlainObject(this[this.format])) {
                             this.execute_post_order_filter('before');
                             this.execute_post_order_filter(this.action_name);
                             this.execute_pre_order_filter('after');
