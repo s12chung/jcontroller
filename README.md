@@ -2,7 +2,7 @@
 Rails controller based javascript to keep your javascript outside of your views.
 
 Based off [Paul Irish's DOM-based Routing](http://www.paulirish.com/2009/markup-based-unobtrusive-comprehensive-dom-ready-execution/)
-(or Garber-Irish Implementation). __Works with turbolinks__
+(or Garber-Irish Implementation). __Works with turbolinks__.
 
 ## How it works
 ```javascript
@@ -16,9 +16,9 @@ Jcontroller.create('users', {
 No other code is needed.
 
 ## Installation
-Add `gem 'dom_routes'` to your application's `Gemfile` and run the `bundle` command, then add this to your `app/assets/javascripts/application.js`
+Add `gem 'jconroller'` to your application's `Gemfile` and run the `bundle` command, then add this to your `app/assets/javascripts/application.js`
 
-    //= require dom_routes
+    //= require jconroller
     
 ## Controllers
 ### Namespaces
