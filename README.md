@@ -33,9 +33,9 @@ Jcontrollers can be created with before and after filters like so:
 Jcontroller.create('users', {
     html: {
         // executes for all html format responses for UsersController, before the specific action
-        before: function() {}
+        before: function() {},
         // executes whenever users#index with html format is executed
-        index: function() {}
+        index: function() {},
         // executes for all html format responses for UsersController, after the specific action
         after: function() {}
     }
@@ -46,8 +46,8 @@ By default, jcontrollers inherit from the `application` jcontroller and will exe
 ```javascript
 Jcontroller.create('application', {
     html: {
-        before: function() {}
-        index: function() {}
+        before: function() {},
+        index: function() {},
         after: function() {}
     }
 });
