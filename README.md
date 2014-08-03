@@ -91,8 +91,17 @@ Jcontroller.create('users', {
     }
 });
 ```
+
+With ruby, you could also access the state in `jaction` to make action specific CSS:
+```erb
+<body data-controller="<%= js_route.controller_path %>" data-action="<%= js_route.action %>">
+...
+</body>
+```
+
 ### Organization
 I like having a jcontrollers directory and calling my files as jcontroller files (ex. users_jcontroller.js).
+
 ## Parameters
 ### Manual
 Use the `js` method with the `params` option.
