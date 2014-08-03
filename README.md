@@ -94,7 +94,7 @@ Jcontroller.create('users', {
 
 With ruby, you could also access the state in `jaction` to make action specific CSS:
 ```erb
-<body data-controller="<%= js_route.controller_path %>" data-action="<%= js_route.action %>">
+<body data-controller="<%= jaction.controller_path %>" data-action="<%= jaction.action_name %>">
 ...
 </body>
 ```
